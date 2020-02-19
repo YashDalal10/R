@@ -1,0 +1,31 @@
+cat<-read.csv("C:/Users/Yash/Desktop/SM/cat.csv")
+fix(cat)
+sum(is.na(cat))
+dog<-read.csv("C:/Users/Yash/Desktop/SM/dog.csv")
+fix(dog)
+sum(is.na(dog))
+c<-t(cat)
+fix(c)
+d<-t(dog)
+fix(d)
+comb<-rbind(c,d)
+fix(comb)
+pca<-prcomp(comb,scale. = TRUE,center = TRUE)
+var<-pca$sdev^2
+p<-var*100/sum(var)
+plot(p)
+sum(p[1:50])
+z<-pca$x[,1:50]
+fix(z)
+r<-pca$rotation[,1:50]
+library(MASS)
+y<-c(rep(0,80),rep(1,80))
+fix(y)
+data<-data.frame(y,comb)
+fix(data)
+l1<-lda(data$y~.,data= data)
+pl<-predict(l1,data)
+tl<-table(data$y,pl$class)
+tl                       #7 misclassifications   
+accl<-sum(diag(tl))/sum(tl)
+accl    #95.62
